@@ -41,8 +41,9 @@ def run_code():
     # 如果把下边方法包装到函数里，会报错说栈太深, RuntimeError: maximum recursion depth exceeded
     try:
         subprocess.check_output(["pyflakes",codefile],stderr=subprocess.STDOUT)
+        code_result = subprocess.check_output(["python",codefile])
         run_message = '运行成功'
-
+        response['code_result'] = code_result
         # 运行成功的
     except subprocess.CalledProcessError,e:
         run_message = '运行失败'
@@ -50,7 +51,7 @@ def run_code():
         # 在client print error 即可看到细节
     result = run_message
     # run it  , subpro
-    response['result'] = result
+    response['info'] = result
     #
     # 实际是在代码中调用代码，运行字符串为代码,ast
     return flask.jsonify(response)
