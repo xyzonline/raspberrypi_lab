@@ -5,6 +5,7 @@
 
 import RPi.GPIO as GPIO
 import time
+import requests
 import beep
 import smile
 GPIO.setmode(GPIO.BCM) #统一引脚形式 ,都用GPIO 23，24    #http://blog.chinaunix.net/attachment/201412/14/21658993_1418547950hA26.png

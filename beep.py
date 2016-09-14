@@ -139,8 +139,6 @@ class Buzzer(object):
     #for p in reversed(pitches):
     #  self.buzz(p, duration)
     #  time.sleep(duration *0.5)
-  GPIO.setup(self.buzzer_pin, GPIO.IN)
-  '''
   elif(tune==2):
     pitches=[262,330,392,523,1047]
     duration=[0.2,0.2,0.2,0.2,0.2,0,5]
@@ -171,7 +169,8 @@ class Buzzer(object):
       self.buzz(p, duration[x])  #feed the pitch and duration to the func$
       time.sleep(duration[x] *0.5)
       x+=1
-  '''
+  GPIO.setup(self.buzzer_pin, GPIO.IN)
+
 
 if __name__ == "__main__":
   #a = input("Enter Tune number 1-5:")
