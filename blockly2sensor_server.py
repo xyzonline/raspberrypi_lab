@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
+from __future__ import unicode_literals
 import subprocess
 import time
 import flask
@@ -10,9 +11,10 @@ app = Flask(__name__)
 CORS(app)
 KEY = 'test' #写成装饰器
 # 你应该把用户假设为可信的，毕竟是他自己的树莓派 ,所以代码可信
+codefile = './codetest.py'
 
 def save_code(code):
-    with open('./codetest.py', 'w+') as codetest: # open or create
+    with open(codefile, 'w+') as codetest: # open or create
         codetest.write(code)
 
     #存下后运行好了。存为本地codetest.py
@@ -36,8 +38,19 @@ def run_code():
     response = {}
     response['code'] = code
     save_code(code)
+    # 如果把下边方法包装到函数里，会报错说栈太深, RuntimeError: maximum recursion depth exceeded
+    try:
+        subprocess.check_output(["pyflakes",codefile],stderr=subprocess.STDOUT)
+        run_message = '运行成功'
+
+        # 运行成功的
+    except subprocess.CalledProcessError,e:
+        run_message = '运行失败'
+        response['error'] = e.output
+        # 在client print error 即可看到细节
+    result = run_message
     # run it  , subpro
-    response['result'] = subprocess.check_output(["python","./codetest.py"])
+    response['result'] = result
     #
     # 实际是在代码中调用代码，运行字符串为代码,ast
     return flask.jsonify(response)
