@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-
+from __future__ import unicode_literals
 # 使用16，18 引脚 echo，trig
 
 import RPi.GPIO as GPIO
@@ -17,14 +17,27 @@ ECHO = 23 #16
 GPIO.setup(TRIG, GPIO.OUT)
 GPIO.setup(ECHO, GPIO.IN)
 
-def handle():
+smile.clear() #非阻塞计时
+def record_handle():
     print("<100cm")
     print 'bi!'
     a = 2 #第一首曲子
-    buzzer = beep.Buzzer()
-    buzzer.play(int(a))
-    smile.draw_smile()
-    i_am_studing.study()
+    #buzzer = beep.Buzzer()
+    #buzzer.play(int(a))
+    print("过2秒，笑脸亮起后开始录音")
+    time.sleep(2)
+    smile.draw_smile() #非阻塞计时
+    #i_am_studing.study()
+    i_am_studing.sox()
+    print("录音成功!")
+    smile.clear() #非阻塞计时
+
+
+def play_handle():
+    print("<10cm")
+    print("开始播放")
+    i_am_studing.play()
+    print("播放成功!")
 
 def main():
     try:
@@ -46,8 +59,10 @@ def main():
         distance = (stop - start) * 340*100 / 2 #声波的速度是340m/s
         #print str(distance) +" cm"
         print 'Distance: %0.4f cm' % distance
-        if distance < 100:
-            handle()
+        if 10<distance < 100:
+            play_handle()
+        if distance<10:
+           record_handle()
         time.sleep(0.5)
     except KeyboardInterrupt:
         GPIO.cleanup()
