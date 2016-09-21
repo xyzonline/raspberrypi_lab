@@ -47,7 +47,6 @@ def draw_smile():
         # Write the display buffer to the hardware.  This must be called to
         # update the actual display LEDs.
         display.write_display()
-def
 # Draw some shapes using the Python Imaging Library.
 if __name__ == '__main__':
     draw_smile()
