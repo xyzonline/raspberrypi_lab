@@ -6,6 +6,7 @@
 import RPi.GPIO as GPIO
 import time
 import beep
+import smile
 GPIO.setmode(GPIO.BCM) #统一引脚形式 ,都用GPIO 23，24    #http://blog.chinaunix.net/attachment/201412/14/21658993_1418547950hA26.png
 
 TRIG = 24 #18 # GPIO.setmode(GPIO.BOARD)
@@ -17,9 +18,12 @@ GPIO.setup(ECHO, GPIO.IN)
 def handle():
     print("<100cm")
     print 'bi!'
-    a = 1 #第一首曲子
+    a = 2 #第一首曲子
     buzzer = beep.Buzzer()
     buzzer.play(int(a))
+    smile.draw_smile()
+    pc_server='http://192.168.0.108:5000'
+    requests.get('{}/study'.format(pc_server))
 
 def main():
     try:
