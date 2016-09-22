@@ -40,7 +40,8 @@ def run_code():
     save_code(code)
     # 如果把下边方法包装到函数里，会报错说栈太深, RuntimeError: maximum recursion depth exceeded
     try:
-        subprocess.check_output(["pyflakes",codefile],stderr=subprocess.STDOUT)
+        # 使用flake8，pylint 更好的options
+        #subprocess.check_output(["pyflakes",codefile],stderr=subprocess.STDOUT) # 不用静态交叉，直接运行把
         code_result = subprocess.check_output(["python",codefile])
         run_message = '运行成功'
         response['code_result'] = code_result
