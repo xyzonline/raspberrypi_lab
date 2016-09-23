@@ -7,6 +7,8 @@ import subprocess
 #import get_hostname
 app = Flask(__name__)
 from threading import Timer
+import local
+from flask import request
 
 @app.route('/study')
 def study():
@@ -42,6 +44,15 @@ def sox():
         my_timer.cancel()
         return '录音成功!'
 
+@app.route('/say')
+def say():
+    #需要传递内容
+    content = request.args.get('content')
+    #content = '把手拿开'
+    access_token = local.access_token
+    url = "http://tsn.baidu.com/text2audio?tex={content}&lan=zh&per=0&pit=9&spd=6&cuid=wwj_pi&ctp=1&tok={access_token}".format(content=content,access_token=access_token)
+    subprocess.call(['mpg123',url])
+    return '说话成功！'
 
 
 if __name__ == '__main__':
