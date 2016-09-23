@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
-
+# 包含相对路径的代码不能被执行只能被引用
 from flask import Flask
 import subprocess
-
+import get_hostname
 app = Flask(__name__)
 
 @app.route('/study')

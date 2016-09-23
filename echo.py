@@ -6,8 +6,9 @@
 import RPi.GPIO as GPIO
 import time
 import requests
-import beep
+import beep #本地 如何使用相对理解，相对路径不能直接运行
 import smile
+import get_hostname
 GPIO.setmode(GPIO.BCM) #统一引脚形式 ,都用GPIO 23，24    #http://blog.chinaunix.net/attachment/201412/14/21658993_1418547950hA26.png
 
 TRIG = 24 #18 # GPIO.setmode(GPIO.BOARD)
@@ -23,7 +24,8 @@ def handle():
     buzzer = beep.Buzzer()
     buzzer.play(int(a))
     smile.draw_smile()
-    pc_server='http://192.168.0.108:5000'
+    pc_host = get_hostname.get_pc_ip('wwj-air.local')
+    pc_server = pc_host+":5000"
     requests.get('{}/study'.format(pc_server))
 
 def main():
