@@ -17,5 +17,5 @@ def get_pc_ip(hostname):
 def get_pi_ip(hostname):
     return socket.gethostbyname(hostname)
 
-print "hostname_pc", get_pc_ip(hostname_pc)
-print "hostname_pi:",get_pi_ip(hostname_pi)
+#print("pc:",get_pc_ip(hostname_pc))
+#print("pi:",get_pi_ip(hostname_pi))

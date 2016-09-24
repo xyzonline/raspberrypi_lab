@@ -15,4 +15,10 @@ def say(content):
     url = server_base_url+"/say"
     payload = {"content":content}
     requests.get(url,params=payload)
+def open_ai_talk(content):
+    url = server_base_url+"/openbot"
+    payload = {"content":content}
+    response = requests.get(url,params=payload)
+    print(response.json()) #js unicode
 
+open_ai_talk(u'早啊')

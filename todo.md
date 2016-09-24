@@ -1,1 +1,4 @@
 - [ ] 组织包结构 相对路径
+- [ ] 网页：http://www.bootcss.com/p/layoutit/
+- [ ] chatbot ai,是一种合适的教学工具，训练机器人，相似性
+- [ ] 作为内部的只能，supervisor

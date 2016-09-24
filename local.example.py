@@ -2,6 +2,12 @@
 # encoding: utf-8
 
 # 配置文件
-# 参考 http://yuyin.baidu.com/docs/tts/135#获取 Access Token
-# access_token有效期为一个月
+# baidu yuyin
 access_token = "xxx"
+# baidu
+YOUR_APP_KEY = "xxx"
+YOUR_SECRET_KEY = "xx"
+
+# turing bot
+turing_key = 'xxx'
+

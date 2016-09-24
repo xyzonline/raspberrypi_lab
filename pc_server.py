@@ -3,12 +3,14 @@
 # 包含相对路径的代码不能被执行只能被引用
 from __future__ import unicode_literals
 from flask import Flask
+import flask
 import subprocess
 #import get_hostname
 app = Flask(__name__)
 from threading import Timer
 import local
 from flask import request
+import chatbot
 
 @app.route('/study')
 def study():
@@ -49,11 +51,24 @@ def say():
     #需要传递内容
     content = request.args.get('content')
     #content = '把手拿开'
-    access_token = local.access_token
+    access_token = local.baidu_access_token
     url = "http://tsn.baidu.com/text2audio?tex={content}&lan=zh&per=0&pit=9&spd=6&cuid=wwj_pi&ctp=1&tok={access_token}".format(content=content,access_token=access_token)
     subprocess.call(['mpg123',url])
     return '说话成功！'
 
+
+
+
+
+@app.route('/openbot')
+def openbot():
+    #需要传递内容
+    content = request.args.get('content')
+    answer = chatbot.chat(content)
+    response = {'reponse':answer}
+    return flask.jsonify(response)
+
+# todo 增加ai ，图灵机器人
 
 if __name__ == '__main__':
     #sox()
