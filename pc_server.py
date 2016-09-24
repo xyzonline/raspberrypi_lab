@@ -10,6 +10,7 @@ app = Flask(__name__)
 from threading import Timer
 import local
 from flask import request
+import chatbot
 
 @app.route('/study')
 def study():
@@ -57,23 +58,13 @@ def say():
 
 
 
-# open bot
-#https://github.com/wwj718/wechat_bot/
-from chatterbot import ChatBot
-from chatterbot.trainers import ChatterBotCorpusTrainer
-deepThought = ChatBot("deepThought")
-deepThought.set_trainer(ChatterBotCorpusTrainer)
-# 使用中文语料库训练它
-# 只需要训练一次，不需要每次启动进程都训练，训练结果默认存到本地`./database.db`,之后启动进程会使用这个数据库
-deepThought.train("chatterbot.corpus.chinese")  # 语料库
-
 
 
 @app.route('/openbot')
 def openbot():
     #需要传递内容
     content = request.args.get('content')
-    answer = deepThought.get_response(content).text
+    answer = chatbot.chat(content)
     response = {'reponse':answer}
     return flask.jsonify(response)
 
