@@ -21,4 +21,4 @@ def open_ai_talk(content):
     response = requests.get(url,params=payload)
     print(response.json()) #js unicode
 
-open_ai_talk(u'早啊')
+#open_ai_talk(u'早啊')

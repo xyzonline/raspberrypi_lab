@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from __future__ import unicode_literals
+import sys;reload(sys);sys.setdefaultencoding('utf8')
 import subprocess
 import time
 import flask
@@ -30,11 +31,17 @@ def run_code():
     # 添加密码
     # 接受代码，存为指定目录文件：./begin,然后用subprocess运行，权限是继承shell的（sudo）,约定好结构，调用函数即可,循环之类的都可以写，块里只包含最干净的
     #健壮，没有的话，用户无法进入
-    code_base64 = request.form.get('code','') #表单形式提交，写个httpie demo
-    code=base64.b64decode(code_base64)
+    #code_base64 = request.form.get('code','') #表单形式提交，写个httpie demo
+    code =  request.get_json().get('code')
+    key =  request.get_json().get('key')
+    #code=base64.b64decode(code_base64) # .decode("utf-8") #尴尬在于只有那一部分是编码的
+    print code
+    code = "#coding:utf-8\nimport sys;reload(sys);sys.setdefaultencoding('utf8')\n"+code
+    #作为参数传递，太不灵活了
+    # 这是局部编码问题
+    # 看下编码
     # base64
-    key = request.form.get('key','') #表单形式提交，写个httpie demo
-    print(code)
+    #key = request.form.get('key','') #表单形式提交，写个httpie demo
     if key != KEY:
         return flask.jsonify({"error":'key error'})
 

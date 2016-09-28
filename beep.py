@@ -172,6 +172,10 @@ class Buzzer(object):
   GPIO.setup(self.buzzer_pin, GPIO.IN)
 
 
+def play_music(num):
+  buzzer = Buzzer()
+  buzzer.play(num)
+
 if __name__ == "__main__":
   #a = input("Enter Tune number 1-5:")
   a = 1
