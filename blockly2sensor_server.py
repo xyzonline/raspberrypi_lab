@@ -68,6 +68,12 @@ def run_code():
     # 实际是在代码中调用代码，运行字符串为代码,ast
     return flask.jsonify(response)
 
+
+@app.route('/access',methods=['GET']) #post code Base64编码 http://blog.just4fun.site/decode-and-encode-note.html
+def acccess():
+    response = {}
+    return flask.jsonify(response)
+
 # 最后清理GPIO口（不做也可以，建议每次程序结束时清理一下，好习惯）
 #RPi.GPIO.cleanup()
 

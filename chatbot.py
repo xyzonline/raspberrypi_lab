@@ -5,7 +5,9 @@
 #https://github.com/wwj718/wechat_bot/
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
-from chatterbot.training.trainers import ListTrainer
+#from chatterbot.training.trainers import ListTrainer
+from chatterbot.trainers import ListTrainer
+import re
 
 deepThought = ChatBot("deepThought")
 deepThought.set_trainer(ListTrainer)
@@ -19,11 +21,12 @@ def chat(query):
     answer = deepThought.get_response(query).text
     return answer
 
-def train(corpus):
+def train(corpus_strings):
     # 训练机器人 ,逗号分隔也行，行分隔
     # 对话列表
     # 案例
     # deepThought.train
+    # 假设传进来的就是纯文本，切割它们
     '''
     ["嗳，渡边君，真喜欢我?",
     "那还用说?",
@@ -32,6 +35,7 @@ def train(corpus):
     ]
     '''
 
+    corpus = re.split(r"\s+",corpus_strings) #切割1-n个空格 ,贪婪
     deepThought.train(corpus)
 
 
