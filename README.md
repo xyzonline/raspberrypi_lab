@@ -1,7 +1,10 @@
 # raspberrypi_lab
 引脚参考脚本
 
-接线图看这里：(之后有空用工具生成专业的图好了)
+接线图看这里：
+![](https://raw.githubusercontent.com/wwj718/gif_bed/master/pi_fritzing.png)
+
+实物图如下：
 
 ![](https://raw.githubusercontent.com/wwj718/gif_bed/master/pi_echo.png)
 
