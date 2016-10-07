@@ -9,6 +9,11 @@ import base64
 from flask import Flask
 from flask import request
 from flask_cors import CORS, cross_origin
+
+# 本地硬件模块
+
+
+
 app = Flask(__name__)
 CORS(app)
 KEY = 'test' #写成装饰器
@@ -36,7 +41,9 @@ def run_code():
     key =  request.get_json().get('key')
     #code=base64.b64decode(code_base64) # .decode("utf-8") #尴尬在于只有那一部分是编码的
     print code
-    code = "#coding:utf-8\nimport sys;reload(sys);sys.setdefaultencoding('utf8')\n"+code
+    # 硬件模块
+    pi_module = "import distance\n"
+    code = "#coding:utf-8\nimport sys;reload(sys);sys.setdefaultencoding('utf8')\n"+pi_module+code
     #作为参数传递，太不灵活了
     # 这是局部编码问题
     # 看下编码
