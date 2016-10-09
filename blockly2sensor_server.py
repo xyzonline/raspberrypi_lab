@@ -42,7 +42,7 @@ def run_code():
     #code=base64.b64decode(code_base64) # .decode("utf-8") #尴尬在于只有那一部分是编码的
     print code
     # 硬件模块
-    pi_module = "import distance\nimport send_emails\n"
+    pi_module = "import distance,send_emails,chatbot,cloud_ai\n"
     code = "#coding:utf-8\nimport sys;reload(sys);sys.setdefaultencoding('utf8')\n"+pi_module+code
     #作为参数传递，太不灵活了
     # 这是局部编码问题
