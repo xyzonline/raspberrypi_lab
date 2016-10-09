@@ -38,6 +38,7 @@ def run_code():
     print code
     # 硬件模块
     pi_module = "import distance,send_emails,chatbot,cloud_ai\n"
+    #pi_module = "import distance,send_emails,cloud_ai\n"
     code = "#coding:utf-8\nimport sys;reload(sys);sys.setdefaultencoding('utf8')\n"+pi_module+code
     #key = request.form.get('key','') #表单形式提交，写个httpie demo
     if key != KEY:
