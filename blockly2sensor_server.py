@@ -24,16 +24,11 @@ def save_code(code):
     with open(codefile, 'w+') as codetest: # open or create
         codetest.write(code)
 
-    #存下后运行好了。存为本地codetest.py
-    # exec eval 对比，测试环境，真实运行不要用这个
+    # 存下后运行好了。存为本地codetest.py
     # 上下文可控
-    # exec语句不会返回任何对象。而eval会返回表达式的值。
-    # 表达式是 某事，语句是 做某事（即告诉计算机做什么)
 
-# 循环10次
 @app.route('/run',methods=['POST']) #post code Base64编码 http://blog.just4fun.site/decode-and-encode-note.html
 def run_code():
-    # 添加密码
     # 接受代码，存为指定目录文件：./begin,然后用subprocess运行，权限是继承shell的（sudo）,约定好结构，调用函数即可,循环之类的都可以写，块里只包含最干净的
     #健壮，没有的话，用户无法进入
     #code_base64 = request.form.get('code','') #表单形式提交，写个httpie demo
@@ -44,10 +39,6 @@ def run_code():
     # 硬件模块
     pi_module = "import distance,send_emails,chatbot,cloud_ai\n"
     code = "#coding:utf-8\nimport sys;reload(sys);sys.setdefaultencoding('utf8')\n"+pi_module+code
-    #作为参数传递，太不灵活了
-    # 这是局部编码问题
-    # 看下编码
-    # base64
     #key = request.form.get('key','') #表单形式提交，写个httpie demo
     if key != KEY:
         return flask.jsonify({"error":'key error'})
@@ -60,10 +51,12 @@ def run_code():
     try:
         # 使用flake8，pylint 更好的options
         #subprocess.check_output(["pyflakes",codefile],stderr=subprocess.STDOUT) # 不用静态交叉，直接运行把
-        code_result = subprocess.check_output(["python",codefile])
+        # 运行之前清理其他 python codetest.py  # sudo ps aux |grep codetest
+        #pkill -f codetest.py
+        subprocess.call(["pkill","-f",codefile])
+        code_result = subprocess.check_output(["python",codefile]) #实际运行代码，保证单线程运行，kill其他codetest.py的进程，有root权限
         run_message = '运行成功'
         response['code_result'] = code_result
-        # 运行成功的
     except subprocess.CalledProcessError,e:
         run_message = '运行失败'
         response['error'] = e.output
@@ -87,3 +80,5 @@ def acccess():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port='5000')
+    # gunicorn
+    # sudo gunicorn blockly2sensor_server:app --bind 0.0.0.0:5000 -w 4
