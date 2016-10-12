@@ -127,9 +127,9 @@ class Buzzer(object):
   x=0
 
   print("Playing tune ",tune)
-  if(tune==1):
+  if(tune==100): #100 才是葫芦娃
     #pitches=[262,294,330,349,392,440,494,523, 587, 659,698,784,880,988,1047]
-    pitches =hlw_tune
+    pitches =hlw_tune #葫芦娃
     print(pitches)
     #duration=0.1
     duration=hlw_duration
@@ -138,6 +138,13 @@ class Buzzer(object):
       #time.sleep(0.1*0.4)
     #for p in reversed(pitches):
     #  self.buzz(p, duration)
+  elif(tune==1):
+    pitches=[262,294,330,349,392,440,494,523, 587, 659,698,784,880,988,1047]
+    duration=0.1
+    for p in pitches:
+      self.buzz(p, duration)  #feed the pitch and duration to the function, “buzz”
+      time.sleep(duration *0.5)
+      x+=1
     #  time.sleep(duration *0.5)
   elif(tune==2):
     pitches=[262,330,392,523,1047]
