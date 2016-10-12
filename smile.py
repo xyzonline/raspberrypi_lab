@@ -2,8 +2,8 @@
 # encoding: utf-8
 import time
 
-from PIL import Image
-from PIL import ImageDraw
+#from PIL import Image
+#from PIL import ImageDraw
 
 from Adafruit_LED_Backpack import Matrix8x8
 
@@ -85,3 +85,4 @@ def clear():
 #    draw_smile()
     display.clear()
     display.write_display()
+clear()
