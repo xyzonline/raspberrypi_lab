@@ -1,6 +1,10 @@
-- [ ] 组织包结构 相对路径
+- [ ] 组织包结构 相对路径 插件化
 - [ ] 网页：http://www.bootcss.com/p/layoutit/
 - [ ] chatbot ai,是一种合适的教学工具，训练机器人，相似性
 - [ ] 作为内部的只能，supervisor
 - [x] ngrok supervisor
 - [x] 使用ajenti来管理
+- [ ] chatbot变为服务（rest），flask
+- [ ] 微软下写一个软件，把系统功能封装为shell
+- [ ] 树莓派作为热点
+- [ ] 服务器管理：Ajenti/glances/linux-dash/gotty
