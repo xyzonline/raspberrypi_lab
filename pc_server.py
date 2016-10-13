@@ -12,6 +12,9 @@ import local
 from flask import request
 import chatbot
 
+
+#写mac和window客户端，只要是录音和播音模块
+
 @app.route('/study')
 def study():
     print('to study')

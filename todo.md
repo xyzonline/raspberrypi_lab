@@ -6,4 +6,6 @@
 - [x] chatbot变为服务（rest），flask
 - [ ] 微软下写一个软件，把系统功能封装为shell,pyinstall,ping 之类的功能
 - [ ] 树莓派作为热点
+- [ ] 蓝牙音箱，AI输入输出
 - [x] 服务器管理：Ajenti/glances/linux-dash/gotty
+- [ ] change_hostname:echo hostname > /etc/hostname
