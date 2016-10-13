@@ -37,7 +37,7 @@ def run_code():
     #code=base64.b64decode(code_base64) # .decode("utf-8") #尴尬在于只有那一部分是编码的
     print code
     # 硬件模块
-    pi_module = "import distance,send_emails,chatbot,cloud_ai\n"
+    pi_module = "import distance,send_emails,chatbot_client,cloud_ai\n"
     #pi_module = "import distance,send_emails,cloud_ai\n"
     code = "#coding:utf-8\nimport sys;reload(sys);sys.setdefaultencoding('utf8')\n"+pi_module+code
     #key = request.form.get('key','') #表单形式提交，写个httpie demo
