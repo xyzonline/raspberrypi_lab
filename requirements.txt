@@ -4,3 +4,4 @@ Flask==0.11.1
 Flask-Cors==3.0.0
 requests==2.11.1
 gunicorn==19.6.0
+ChatterBot==0.4.10
