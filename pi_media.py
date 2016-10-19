@@ -75,7 +75,7 @@ def lirc_record(delay=2):
 
     开始录制/结束录制
     '''
-    play_mp3("./data/begin_recording.mp3") #提示
+    play_mp3("./data/begin_infrared.mp3") #提示
     #command_raw = "mode2  -d /dev/lirc0 > /tmp/temp.code"
     command = ["mode2","-d","/dev/lirc0"]
     mode2 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -89,7 +89,7 @@ def lirc_record(delay=2):
         # 把数字插入到功能里 /etc/lirc/lircd.conf 放置锚点
         insert_lirc_key(raw_num)
     finally:
-        play_mp3("./data/end_recording.mp3")
+        play_mp3("./data/end_infrared.mp3")
         my_timer.cancel()
         # restart
         subprocess.call(["/etc/init.d/lirc", "restart"])
@@ -113,13 +113,21 @@ def insert_lirc_key(raw_num):
           filedata = file1.read()
     content = re.sub(r"KEY_BLOCKLY(.+\d+)","KEY_BLOCKLY\n               {}\n".format(raw_num),filedata,flags=re.DOTALL)
     # 必须用KEY_BLOCKLY
-    print content
+    #print content
     with open(conf, 'w') as file2:
           file2.write(content)
     #把内容塞到文件的锚点里
 
+def send_infrared(key="KEY_BLOCKLY"):
+    command = ["irsend","SEND_ONCE","/home/pi/lircd.conf",key]
+    subprocess.call(command)
+    print("红外信号发射成功")
+
 
 if __name__ == '__main__':
+    pass
     #lirc_record(delay=5)
-    lirc_record(delay=2)
+    #lirc_record(delay=2)
+    #send_infrared()
     #sox(delay=5)
+    say("开始红外录制")
