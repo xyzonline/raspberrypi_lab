@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
-#!/usr/bin/python
+
+'''
+DH11
+引脚
+s到- 依次是4 1 5（左排）
+'''
+
 import RPi.GPIO as GPIO
 import time
 def get_temperature_humidity():
