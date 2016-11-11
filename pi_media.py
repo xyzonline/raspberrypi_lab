@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 import subprocess
 from threading import Timer
-import local
+import settings
 import re
 
 '''
@@ -45,7 +45,7 @@ def play_mp3(uri):
 
 
 def text2audio_url(content):
-    access_token = local.baidu_access_token
+    access_token = settings.baidu_access_token
     url = "http://tsn.baidu.com/text2audio?tex={content}&lan=zh&per=0&pit=9&spd=6&cuid=wwj_pi&ctp=1&tok={access_token}".format(content=content,access_token=access_token)
     #print(url)
     return url
