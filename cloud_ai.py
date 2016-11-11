@@ -15,5 +15,7 @@ def get_response(query):
     payload['info']=query
     response = requests.get(turing_api,params=payload)
     # todo: 判断网络请求是否成功，设置超时
-    return response.json()['text']
+    answer = response.json()['text']
+    print(answer)
+    return answer
 
