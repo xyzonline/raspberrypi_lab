@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+'''
+电脑服务的client，在树莓派中用
+'''
+
 import requests
 import get_hostname
 pc_ip = get_hostname.get_pc_ip('wwj-air.local')

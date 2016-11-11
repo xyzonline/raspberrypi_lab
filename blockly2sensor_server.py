@@ -1,77 +1,78 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from __future__ import unicode_literals
-import sys;reload(sys);sys.setdefaultencoding('utf8')
-import subprocess
-import time
+import sys;reload(sys);sys.setdefaultencoding('utf8') #中文编码问题
+import subprocess #用于调用外部程序
 import flask
-import base64
 from flask import Flask
-from flask import request
-from flask_cors import CORS, cross_origin
-
-# 本地硬件模块
-
-
+from flask import request  #处理请求参数
+from flask_cors import CORS  #, cross_origin  #跨域请求
+import settings
 
 app = Flask(__name__)
 CORS(app)
-KEY = 'test' #写成装饰器
-# 你应该把用户假设为可信的，毕竟是他自己的树莓派 ,所以代码可信
-codefile = './codetest.py'
+KEY = settings.APP_KEY
+CODE_FILE = settings.CODE_FILE
 
 def save_code(code):
-    with open(codefile, 'w+') as codetest: # open or create
-        codetest.write(code)
-
-    # 存下后运行好了。存为本地codetest.py
-    # 上下文可控
+    '''
+    将代码保存为本地文件：CODE_FILE
+    '''
+    with open(CODE_FILE, 'w+') as codetest: # open or create
+        codetest.write(code) # 存为本地codetest.py
 
 @app.route('/run',methods=['POST']) #post code Base64编码 http://blog.just4fun.site/decode-and-encode-note.html
 def run_code():
-    # 接受代码，存为指定目录文件：./begin,然后用subprocess运行，权限是继承shell的（sudo）,约定好结构，调用函数即可,循环之类的都可以写，块里只包含最干净的
-    #健壮，没有的话，用户无法进入
-    #code_base64 = request.form.get('code','') #表单形式提交，写个httpie demo
-    code =  request.get_json().get('code')
+    '''
+    入口，接收来自blockly前端页面的请求
+    todo:
+        *  改为websocket
+        *  传感器部分重构,太分散,命名规则不统一
+
+    pi_module说明:
+        *  distance: 超声波传感器，测量超声波传感器距离
+        *  send_emails: 邮件模块
+        *  chatbot_client:
+        *  cloud_ai: 云端ai，turing bot
+        *  pi_media: media相关，音频
+        *  DHT11: 温度传感器
+    '''
+    code =  request.get_json().get('code') # 使用json传输数据
     key =  request.get_json().get('key')
-    #code=base64.b64decode(code_base64) # .decode("utf-8") #尴尬在于只有那一部分是编码的
-    print code
-    # 硬件模块
+    # 硬件模块,预加载
+    # 硬件模块需要sudo权限
     pi_module = "import distance,send_emails,chatbot_client,cloud_ai,pi_media,DHT11\n"
-    #pi_module = "import distance,send_emails,cloud_ai\n"
     code = "#coding:utf-8\nimport sys;reload(sys);sys.setdefaultencoding('utf8')\n"+pi_module+code
-    #key = request.form.get('key','') #表单形式提交，写个httpie demo
-    if key != KEY:
+    if key != KEY: # 验证密码
         return flask.jsonify({"error":'key error'})
 
-    # http -f post  192.168.0.115:5000/run code='print "hello"' key='test'
+    # http post  192.168.0.115:5000/run code='print "hello"' key='test' # 默认是json
     response = {}
     response['code'] = code
     save_code(code)
-    # 如果把下边方法包装到函数里，会报错说栈太深, RuntimeError: maximum recursion depth exceeded
+    # 下边方法不能包装到函数里，否则会报错说栈太深.  RuntimeError: maximum recursion depth exceeded
     try:
         # 使用flake8，pylint 更好的options
-        #subprocess.check_output(["pyflakes",codefile],stderr=subprocess.STDOUT) # 不用静态交叉，直接运行把
+        #subprocess.check_output(["pyflakes",CODE_FILE],stderr=subprocess.STDOUT) # 不用静态交叉，直接运行吧
         # 运行之前清理其他 python codetest.py  # sudo ps aux |grep codetest
         #pkill -f codetest.py
-        subprocess.call(["pkill","-f",codefile])
-        code_result = subprocess.check_output(["python",codefile]) #实际运行代码，保证单线程运行，kill其他codetest.py的进程，有root权限
-        run_message = '运行成功'
+        subprocess.call(["pkill","-f",CODE_FILE]) #运行之前把之前运行的停掉,保证每次只运行一个程序
+        code_result = subprocess.check_output(["python",CODE_FILE]) #实际运行代码，保证单线程运行，kill其他codetest.py的进程
+        running_status = '运行成功'
         response['code_result'] = code_result
     except subprocess.CalledProcessError,e:
-        run_message = '运行失败'
+        running_status = '运行失败'
         response['error'] = e.output
-        # 在client print error 即可看到细节
-    result = run_message
-    # run it  , subpro
-    response['info'] = result
-    #
-    # 实际是在代码中调用代码，运行字符串为代码,ast
+
+    response['running_status'] =  running_status
     return flask.jsonify(response)
 
 
-@app.route('/access',methods=['GET']) #post code Base64编码 http://blog.just4fun.site/decode-and-encode-note.html
-def acccess():
+@app.route('/access',methods=['GET'])
+def access():
+    '''
+    检查网络是否通畅，服务是否正常
+    '''
     response = {}
     return flask.jsonify(response)
 

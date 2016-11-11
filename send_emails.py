@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 # encoding: utf-8
-
+from __future__ import unicode_literals
 import smtplib
 from email.mime.text import MIMEText
-from pi_config import mail_host,mail_user,mail_pass
+from settings import mail_host,mail_user,mail_pass
 import datetime
 
-def send_mail(to_user_list,sub=u'安全提醒'):
-    content=u'有人 于{} 进入您的房间'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+'''
+邮件模块
+'''
+
+def send_mail(to_user_list,sub='安全提醒'):
+    content='有人 于{} 进入您的房间'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     msg = MIMEText(content, 'html', 'utf-8')
     msg['Subject'] = sub
     msg['From'] = mail_user
@@ -29,7 +33,7 @@ if __name__ == '__main__':
 </body></html>
 '''
     if send_mail("hello",content,mailto_list):
-        print "发送成功"
+        print("发送成功")
     else:
-        print "发送失败"
+        print("发送失败")
 

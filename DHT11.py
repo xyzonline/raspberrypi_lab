@@ -2,9 +2,11 @@
 # encoding: utf-8
 
 '''
+DHT11温度传感器控制模块
+
 DH11
 引脚
-s到- 依次是4 1 5（左排）
+    s到- : 依次是4 1 5（左排）, 接线错误会导致代码运行诡异
 '''
 
 import RPi.GPIO as GPIO
@@ -13,7 +15,7 @@ def get_temperature_humidity():
     channel =4 #GPIO4
     data = []
     j = 0
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BCM) #使用GPIO
     time.sleep(1)
     GPIO.setup(channel, GPIO.OUT)
     GPIO.output(channel, GPIO.LOW)

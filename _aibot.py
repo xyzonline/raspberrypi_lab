@@ -1,25 +1,29 @@
 #!/usr/bin/env python
 # encoding: utf-8
-#from __future__ import unicode_literals
-# 百度语音模块
-# 图灵api
+from __future__ import unicode_literals
 import requests
 import BaiduYuyin as pby #需要python2
 import local
 YOUR_APP_KEY = local.BAIDU_APP_KEY
 YOUR_SECRET_KEY = local.BAIDU_SECRET_KEY
-tts = pby.TTS(app_key=YOUR_APP_KEY, secret_key=YOUR_SECRET_KEY)
+tts = pby.TTS(app_key=YOUR_APP_KEY, secret_key=YOUR_SECRET_KEY) # 默认带有秘钥
 # 语音到文字
 #user_input='你好啊'
 #tts.say(user_input)
 import pc_client
 import json
 import BaiduYuyin as pby
+
+'''
+ai模块
+'''
+
+
 r = pby.Recognizer()
 def get_input():
   pc_client.say(u'请开始说话')
   with pby.Microphone() as source:
-    audio = r.listen(source,timeout=0)
+    audio = r.listen(source,timeout=0) #自动判断
     user_input = r.recognize(audio)
     print('user_input',user_input)
     return user_input
@@ -42,7 +46,7 @@ def turing_ai_talk():
         pc_client.say(response_text)
 
 turing_ai_talk()
-#ai_talk()
+# ai_talk()
 # http://www.tuling123.com/
 
 # pip show BaiduYuyin

@@ -1,6 +1,4 @@
 # raspberrypi_lab
-引脚参考脚本 : 
-
 引脚图 ：http://blog.chinaunix.net/attachment/201412/14/21658993_1418547950hA26.png
 
 接线图看这里：
