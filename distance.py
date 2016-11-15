@@ -36,5 +36,5 @@ def get_distance():
         stop = time.time()
 
     distance = (stop - start) * 340 * 100 / 2  #声波的速度是340m/s
-    #print 'Distance: %0.4f cm' % distance
-    return distance  # 精确值，小数数位很多
+    return '%0.2f' % distance
+    #return distance  # 精确值，小数数位很多
