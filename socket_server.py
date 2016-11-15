@@ -23,5 +23,5 @@ client, address = server.accept() #因为设置了接收连接数为1，所以�
 while True: #循环收发数据包，长连接
     data = client.recv(BUF_SIZE)
     #print(data.decode()) #python3 要使用decode
-    print(data)
+    print(str(data)=="hello")
     # client.close() #连接不断开，长连接

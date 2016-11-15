@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import unicode_literals
 import RPi.GPIO as GPIO
 import time
 import threading #多进程  主进程会等待子进程结束 子进程可以多个
@@ -11,6 +12,8 @@ GPIO.setup(pin,GPIO.IN)
 inputValue = 1 # 高电平.电阻小，正常状态 # 异常电阻升高
 def ask_help():
     print("fire!help!")
+    import pi_media
+    pi_media.say("着火啦救命")
 
 def hello():
     while True:
@@ -36,6 +39,6 @@ t1 = threading.Thread(target=get_fire, name='fire')
 t2 = threading.Thread(target=hello, name='hello')
 t1.start()
 t2.start()
-#t1.join()
+#t1.join() # 阻塞正在调用的线程
 #t2.join()
 # 无法kill http://www.jb51.net/article/35165.htm
