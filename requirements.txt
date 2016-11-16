@@ -5,3 +5,4 @@ Flask-Cors==3.0.0
 requests==2.11.1
 gunicorn==19.6.0
 ChatterBot==0.4.10
+Flask-SocketIO==2.7.2
