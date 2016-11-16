@@ -23,7 +23,7 @@ def ask_help():
     print("run")
     #client.send('run')
     sock.sendto('run', (host,port))
-    time.sleep(0.1)
+    time.sleep(0.05)
 
 def hello():
     while True:
@@ -31,7 +31,7 @@ def hello():
         sock.sendto('xxx\n', (host,port))
         #client.send('xxx\n')
         print("xxx\n")
-        time.sleep(0.1)
+        time.sleep(0.05)
 def get_fire():
   global inputValue #多线程需要这样
   while True:
