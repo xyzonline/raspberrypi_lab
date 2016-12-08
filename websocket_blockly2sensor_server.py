@@ -74,6 +74,13 @@ parser = reqparse.RequestParser()
 parser.add_argument('title')
 parser.add_argument('content')
 parser.add_argument('description')
+resource_fields = {
+    'id':fields.Integer,
+    'title': fields.String,
+    'content': fields.String,
+    'description': fields.String,
+    "update_time":fields.DateTime(dt_format='iso8601'),}
+
 class GistRes(Resource):
     '''
     http接口
@@ -83,8 +90,15 @@ class GistRes(Resource):
     def get(self,gist_id):
         # abort_if_todo_doesnt_exist 保证存在
         # abort(404, message="gist xxx doesn't exist") 不存在就退出
-        return {'message': 'get a gist:{}'.format(gist_id)}
+        _gist = Gist()
+        gist = _gist.get(gist_id)
+        if gist:
+            return marshal(gist,resource_fields), 200
+        else:
+            return {"error":"does not exist"}
     def delete(self,gist_id):
+        _gist = Gist()
+        _gist.delete(gist_id)
         return {'message': 'delete a gist:{}'.format(gist_id)}
     def put(self,gist_id):
         return {'message': 'change a gist'.format(gist_id)}
@@ -94,13 +108,6 @@ class GistResList(Resource):
         _gist = Gist()
         gists = _gist.list()
         # 序列化，控制输出
-        resource_fields = {
-    'id':fields.Integer,
-    'title': fields.String,
-    'content': fields.String,
-    'description': fields.String,
-    "update_time":fields.DateTime(dt_format='iso8601'),
-
         return marshal(gists,resource_fields), 200
     def post(self):
         args = parser.parse_args()

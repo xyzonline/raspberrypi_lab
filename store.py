@@ -58,9 +58,13 @@ class Gist(object):
         #return gists
         return [model_to_dict(gist) for gist in gists]
     def get(self,gist_id):
-        item = self.GistModel.select().where(self.GistModel.id==gist_id)
-        print(type(item))
-        return item
+        # 获取或不存在
+        try:
+            item = self.GistModel.get(self.GistModel.id==gist_id)
+        except GistModel.DoesNotExist:
+            return None
+        return model_to_dict(item)
+        #print(type(item))
     def create(self,title,content,description=None):
         gist = self.GistModel()
         gist.title = title
@@ -69,7 +73,7 @@ class Gist(object):
         gist.save()
         return gist
     def delete(self,gist_id):
-        gist = GistModel.get(GistModel.id == gist_id)
+        gist = self.GistModel.get(GistModel.id == gist_id)
         gist.delete_instance() # return id
 
 if __name__ == '__main__':
