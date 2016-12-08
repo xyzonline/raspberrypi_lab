@@ -1,6 +1,8 @@
 # raspberrypi_lab
 引脚图 ：http://blog.chinaunix.net/attachment/201412/14/21658993_1418547950hA26.png
 
+gpio readall
+
 接线图看这里：
 ![](https://raw.githubusercontent.com/wwj718/gif_bed/master/pi_fritzing.png)
 
@@ -44,3 +46,6 @@ buzzer.play(a)
 该服务允许树莓派运行通过http发送过来的代码。（假设发送者可信，毕竟树莓派就是人家的啊！）
 
 计划将blockly作为前端，用户通过拖曳生成代码，再通过树莓派控制硬件
+
+# 数据说明
+主目录下的database.db来自chatterbot

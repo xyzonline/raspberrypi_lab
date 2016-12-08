@@ -13,7 +13,7 @@ GPIO.setup(pin,GPIO.IN)
 inputValue = 1 # 高电平.电阻小，正常状态 # 异常电阻升高
 
 # socket
-host = 'localhost'
+host = '192.168.0.113'
 port = 6000
 #client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #client.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1) #在客户端开启心跳维护
@@ -30,7 +30,7 @@ def hello():
         # 使用UDP
         sock.sendto('xxx\n', (host,port))
         #client.send('xxx\n')
-        print("xxx\n")
+        #print("xxx\n")
         time.sleep(0.05)
 def get_fire():
   global inputValue #多线程需要这样
@@ -44,7 +44,7 @@ def get_fire():
      if inputValue==0:
         #print(inputValue)
         ask_help()
-        #time.sleep(0.1)
+        #time.sleep(0.05)
 
 print('thread %s is running...' % threading.current_thread().name)# 主进程
 t1 = threading.Thread(target=get_fire, name='fire')
@@ -57,4 +57,5 @@ t2.start()
 #t2.join()
 # 无法kill http://www.jb51.net/article/35165.htm
 while True:
-    pass
+    #pass
+    time.sleep(0.1)

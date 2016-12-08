@@ -2,65 +2,77 @@
 # encoding: utf-8
 
 '''
-存储模块，使用tinydb
+存储模块
 结构上使其与kinto相似
 
-db::table::record
-blockly4pi::gist::
-
 http://kinto.just4fun.site/v1/buckets/paperweekly/collections/forum2wechat_todo/records
-
 var gist = kinto_client.bucket("blockly").collection("gist");
 '''
-from tinydb import TinyDB, where,Query
+from peewee import *
+from playhouse.sqlite_ext import SqliteExtDatabase
+from playhouse.shortcuts import model_to_dict, dict_to_model
+#from playhouse.flask_utils import object_list
+import datetime
 import uuid
 
-# 构建类
+db = SqliteExtDatabase('gist_database.db')
+
+import logging
+logging.basicConfig(level=logging.INFO)
+################ data class
+
+class BaseModel(Model):
+    class Meta:
+        database = db
+
+class GistModel(BaseModel):
+    title = CharField()
+    description = CharField(null=True)
+    content = CharField()
+    is_published_ = BooleanField(default=False)
+    tag = CharField(null = True)
+    url = CharField(null = True) # 代码站点/文档/用户信息
+    update_time = DateTimeField(default=datetime.datetime.now)
+    class Meta:
+        database = db
+        order_by = ('-update_time',)
+
+# 管理
+def manage_table():
+    db.connect()
+    db.create_tables([GistModel])
+    #db.drop_tables([GistModel], safe=True)
+
+
+############
 
 class Gist(object):
     """代码片段存储.
-
-    >>> gist_store = Gist() #使用默认值
-    >>> record = {}
-    >>> record["name"] = 'test'
-    >>> record_id = uuid.uuid4().get_hex()[:16]
-    >>> record["id"] = record_id
-    >>> gist_store.insert(record)
-    >>> item = gist_store.get(record_id)
-    <class 'tinydb.database.Element'>
-    >>> item["id"] == record_id
-    True
-    >>> assert item == record
-    >>> #print("insert...")
-    >>> records = gist_store.list()
-    >>> #print(records)
+    单用户所以很简单
+    为了便于分享使用uuid定义用户
     """
-
-    def __init__(self,DB_FILE="./gist.json",TABLE_NAME="gist"):
-        """TODO: to be defined1. """
-        _db = TinyDB(DB_FILE)
-        self._table = _db.table(TABLE_NAME)
+    def __init__(self):
+        self.GistModel = GistModel
     def list(self):
-        records = self._table.all()
-        return records
-    def get(self,record_id):
-        Record = Query()
-        item = self._table.get(Record.id==record_id)
+        gists = self.GistModel.select()# all
+        #return gists
+        return [model_to_dict(gist) for gist in gists]
+    def get(self,gist_id):
+        item = self.GistModel.select().where(self.GistModel.id==gist_id)
         print(type(item))
         return item
-    #def  search
-    def insert(self,record={}):
-        '''
-        插入记录：设计字段，和kinto相同
-        '''
-        self._table.insert(record)
-    def delete(self,record_id):
-        # 可能不存在 try
-        # log 提示
-        pass
+    def create(self,title,content,description=None):
+        gist = self.GistModel()
+        gist.title = title
+        gist.description = description
+        gist.content = content
+        gist.save()
+        return gist
+    def delete(self,gist_id):
+        gist = GistModel.get(GistModel.id == gist_id)
+        gist.delete_instance() # return id
 
-if __name__=='__main__':
-    #gist_store = Gist()
-    #print gist_store.get("0fd60cafcae54b6c")
-    import doctest
-    doctest.testmod()
+if __name__ == '__main__':
+   #create_table()
+   manage_table()
+   # sandman2ctl sqlite+pysqlite:///my_database.db 浏览数据

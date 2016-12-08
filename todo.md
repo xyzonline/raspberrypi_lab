@@ -12,3 +12,6 @@
 - [ ] 重构结构，使用setting（django），增加开关，易于配置，pi_local放到~下
 - [ ] 传感器引脚统一写到setttings.py里
 - [ ] 手机热点设置和树莓派ssid 密码相同，不怕冲突
+- [ ] 把kinto替换为peewee/tinydb,移除redis和kinto
+    *  需要写一个删改函数，抽象为store.py
+
